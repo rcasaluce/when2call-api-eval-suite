@@ -202,12 +202,13 @@ Call `/completions` with `echo=True` on $z_j$, extract token logprobs for the su
 
 #### Raw score (sum of log-probabilities)
 
-$$
-S_j^{\text{raw}}
-=\sum_{i \in I_j} \log p_\theta!\bigl(t_i^{(j)} \mid t_{<i}^{(j)}\bigr),
+
+```math
+S_j^{\mathrm{raw}}
+=\sum_{i \in I_j} \log p_\theta \bigl(t_i^{(j)} \mid t_{\lt i}^{(j)}\bigr),
 \qquad
-\hat{j}_{\text{raw}}=\arg\max_j S_j^{\text{raw}}.
-$$
+\hat{j}_{\mathrm{raw}}=\arg\max_j S_j^{\mathrm{raw}}.
+```
 
 #### Byte-normalized score (LM-Eval `acc_norm` analogue)
 
@@ -347,7 +348,7 @@ Let $\mathrm{tools}_i$ be the set of available tools for example $i$, and let $\
 
 #### Tool hallucination rate (ToolHall)
 
-$$
+```math
 \mathrm{ToolHall}=
 \frac{
 \sum_{i=1}^{N}
@@ -356,7 +357,7 @@ y_i=\texttt{cannot\_answer}
 \land
 |\mathrm{tools}_i|=0
 \land
-\hat y_i=\texttt{tool\_call}
+\hat{y}_i=\texttt{tool\_call}
 \right]
 }{
 \sum_{i=1}^{N}
@@ -366,8 +367,7 @@ y_i=\texttt{cannot\_answer}
 |\mathrm{tools}_i|=0
 \right]
 }.
-$$
-
+```
 
 * **numerator**: number of examples where:
 
@@ -409,15 +409,14 @@ This metric is an extension implemented in this evaluation suite and is **not** 
 
 
 
-
-$$
+```math
 \mathrm{ParamHall}=
 \frac{
 \sum_{i=1}^{N}
 \mathbf{1}\!\left[
 y_i=\texttt{request\_for\_info}
 \land
-\hat y_i=\texttt{tool\_call}
+\hat{y}_i=\texttt{tool\_call}
 \right]
 }{
 \sum_{i=1}^{N}
@@ -425,8 +424,7 @@ y_i=\texttt{request\_for\_info}
 y_i=\texttt{request\_for\_info}
 \right]
 }.
-$$
-
+```
 * **numerator**: number of examples where:
 
   * gold label is `request_for_info`
