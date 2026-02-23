@@ -285,8 +285,33 @@ This applies to all calls that go through the `raw_chat_completion(...)` wrapper
 
 * `target_model = "gpt-oss-120b"` → routed to **JRC**
 * `target_model = "llama-3.3-70b-instruct"` → routed to **JRC**
-* `target_model = "gemini-2.5-pro"` → routed to **Gemini**
+* `target_model = "gemini-2.5-pro"` → routed to **Gemini** (routing example only; currently not recommended with this script version)
 * `judge_model  = "gemini-2.0-flash"` → routed to **Gemini**
+
+### Gemini support status (important)
+
+**Current recommendation: use Gemini Flash models only** (e.g., `gemini-2.5-flash`) for the Gemini `/chat/completions` paths in this repository.
+
+**Status of this script (current version):**
+- **Tested**: Gemini **Flash** (chat-based paths only: LLM-as-judge target/judge calls, MCQ string-based)
+- **Not supported / not validated**: Gemini **Pro** models (e.g., `gemini-2.5-pro`) with the current script version
+- **Not supported on Gemini**: MCQ logprob pipeline (`/completions` echo + token logprobs), which is currently JRC-oriented
+
+#### Why Gemini Pro may fail with the current script
+
+This repository has **not yet been updated** to handle Gemini Pro-specific thinking controls in a robust way.
+
+In practice:
+- Gemini Pro models may use **reasoning / thinking** behavior that is not controlled by the current script implementation.
+- The current script does **not** send Gemini-specific thinking configuration (e.g., Pro-family thinking budget/level controls), so responses can become longer, slower, truncated, or less compliant with strict output constraints.
+- This is especially problematic for the **MCQ string-based classifier**, which expects a strict single-digit output (`0/1/2/3`) and can break if the model emits extra reasoning text or formatting.
+
+#### Practical guidance
+
+If you want to use Gemini with this repository **without modifying the code**, use:
+- `gemini-*-flash` for `/chat/completions`-based pipelines only
+
+If you select a Gemini **Pro** model with the current (unpatched) script, **the run may fail or produce invalid outputs**.
 
 ### Provider-specific credentials and base URLs (configured in `config.toml`)
 
