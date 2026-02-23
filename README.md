@@ -1,6 +1,6 @@
 # When2Call API Evaluation Suite (LLM-as-Judge, MCQ, MCQ Log-Probability)
 
-This repository reproduces and extends the evaluation protocols from **“When2Call: When (not) to Call Tools”** (arXiv:2504.18851) in an **API-deployed** setting (OpenAI-compatible endpoints). It is designed to mirror the behavior-oriented evaluation flow used in the official When2Call codebase and in **lm-evaluation-harness**, while adding robust checkpointing, richer metrics (including hallucination rates), and stability analyses.
+This repository reproduces and extends the evaluation protocols from **“When2Call: When (not) to Call Tools”** (arXiv:2504.18851) in an **API-deployed** setting (OpenAI-compatible endpoints). It is designed to mirror the behavior-oriented evaluation flow used in the official When2Call codebase and in **lm-evaluation-harness**, while adding robust checkpointing and extended evaluation/analysis tooling.
 
 * When2Call paper: [https://arxiv.org/pdf/2504.18851](https://arxiv.org/pdf/2504.18851)
 * Official dataset & reference implementation: [https://github.com/NVIDIA/When2Call/tree/main](https://github.com/NVIDIA/When2Call/tree/main)
@@ -11,6 +11,7 @@ For operational details, auditability, and experiment tracking:
 
 * [Operations & Audit Guide](docs/operations-audit-guide.md) — run/session structure, checkpoints, audit logs, traceability, and reproducibility workflow
 * [MLflow Guide](docs/mlflow-guide.md) — MLflow run organization, artifact mapping, and how to access the local MLflow web UI
+* [Metrics & Stability Guide](docs/metrics-and-stability.md) — formal metric definitions, formulas, hallucination metrics, and stability metrics
 
 ---
 
@@ -29,19 +30,15 @@ It implements three complementary evaluation paradigms:
 2. **MCQ (string-based)** (ex-ante decision via index-only classification, no logprobs)
 3. **MCQ (log-probability scoring)** (ex-ante decision via likelihood scoring, aligned with `lm-eval` MCQ scoring)
 
-Additionally, it computes:
+Additionally, it computes classification, hallucination, and (optionally) stability metrics for repeated-run analyses.
 
-* Accuracy, macro-F1, macro-F1 excluding `direct`, per-class F1/support
-* Confusion matrices
-* Hallucination rates: tool hallucination, answer hallucination, parameter hallucination
-* Stability metrics under repeated runs (Stability@k, MeanConsistency@k, entropy, flip-rate, stable-correct/wrong, etc.)
+See [Metrics & Stability Guide](docs/metrics-and-stability.md) for formal definitions and formulas.
 
 ---
 
 ## Repository structure
 
 ```text
-
 .
 ├── README.md                          # Main project README (overview, setup, usage + links to docs)
 ├── config.example.toml                # Versioned configuration template (commit this)
@@ -50,7 +47,8 @@ Additionally, it computes:
 ├── .env                               # Local secrets (copy from .env.example; usually gitignored)
 ├── docs/
 │   ├── operations-audit-guide.md      # Operations, traceability, checkpoints, audit logs, reproducibility
-│   └── mlflow-guide.md                # MLflow usage, run mapping, artifacts, local web UI access
+│   ├── mlflow-guide.md                # MLflow usage, run mapping, artifacts, local web UI access
+│   └── metrics-and-stability.md       # Metric definitions, hallucination metrics, stability metrics
 ├── When2Call/                         # Cloned from NVIDIA When2Call (dataset lives here)
 │   └── data/
 │       └── test/
@@ -72,7 +70,7 @@ Additionally, it computes:
                     ├── mlflow_ids.json    # MLflow parent/child run IDs (resume-safe mapping)
                     ├── checkpoints/       # Append-only JSONL checkpoints per pipeline
                     └── artifacts_local/   # Local artifacts staged/logged to MLflow
-```
+````
 
 ### Data requirement
 
@@ -202,7 +200,6 @@ Call `/completions` with `echo=True` on $z_j$, extract token logprobs for the su
 
 #### Raw score (sum of log-probabilities)
 
-
 ```math
 S_j^{\mathrm{raw}}
 =\sum_{i \in I_j} \log p_\theta \bigl(t_i^{(j)} \mid t_{\lt i}^{(j)}\bigr),
@@ -243,6 +240,20 @@ Token normalization is tokenizer-dependent and is reported separately.
 If all choices return `-inf` (or otherwise non-finite) scores for an example, the pipeline falls back to the MCQ string-based classifier and reuses that label for all logprob variants. All such events are recorded in an audit JSONL.
 
 ---
+
+## Evaluation metrics and hallucination analysis
+
+In addition to task predictions, this repository reports **classification metrics**, **hallucination metrics**, and (optionally) **stability metrics** for repeated-run analyses.
+
+Reported classification outputs include standard performance summaries such as accuracy, macro-F1 variants, confusion matrices, and per-class statistics.
+
+For hallucination analysis, the suite includes:
+- the **tool hallucination rate** used in the When2Call evaluation setting (following the Appendix discussion in the paper), and
+- **two additional hallucination metrics implemented in this repository** as extensions (**AnswerHall** and **ParamHall**), designed to complement the original hallucination analysis while staying aligned with the same evaluation logic.
+
+To keep the README focused on usage and workflow, the **formal metric definitions, formulas, and stability metrics** are documented separately in:
+
+* [Metrics & Stability Guide](docs/metrics-and-stability.md)
 
 ## Prompt templates and model families
 
@@ -293,23 +304,26 @@ This applies to all calls that go through the `raw_chat_completion(...)` wrapper
 **Current recommendation: use Gemini Flash models only** (e.g., `gemini-2.5-flash`) for the Gemini `/chat/completions` paths in this repository.
 
 **Status of this script (current version):**
-- **Tested**: Gemini **Flash** (chat-based paths only: LLM-as-judge target/judge calls, MCQ string-based)
-- **Not supported / not validated**: Gemini **Pro** models (e.g., `gemini-2.5-pro`) with the current script version
-- **Not supported on Gemini**: MCQ logprob pipeline (`/completions` echo + token logprobs), which is currently JRC-oriented
+
+* **Tested**: Gemini **Flash** (chat-based paths only: LLM-as-judge target/judge calls, MCQ string-based)
+* **Not supported / not validated**: Gemini **Pro** models (e.g., `gemini-2.5-pro`) with the current script version
+* **Not supported on Gemini**: MCQ logprob pipeline (`/completions` echo + token logprobs), which is currently JRC-oriented
 
 #### Why Gemini Pro may fail with the current script
 
 This repository has **not yet been updated** to handle Gemini Pro-specific thinking controls in a robust way.
 
 In practice:
-- Gemini Pro models may use **reasoning / thinking** behavior that is not controlled by the current script implementation.
-- The current script does **not** send Gemini-specific thinking configuration (e.g., Pro-family thinking budget/level controls), so responses can become longer, slower, truncated, or less compliant with strict output constraints.
-- This is especially problematic for the **MCQ string-based classifier**, which expects a strict single-digit output (`0/1/2/3`) and can break if the model emits extra reasoning text or formatting.
+
+* Gemini Pro models may use **reasoning / thinking** behavior that is not controlled by the current script implementation.
+* The current script does **not** send Gemini-specific thinking configuration (e.g., Pro-family thinking budget/level controls), so responses can become longer, slower, truncated, or less compliant with strict output constraints.
+* This is especially problematic for the **MCQ string-based classifier**, which expects a strict single-digit output (`0/1/2/3`) and can break if the model emits extra reasoning text or formatting.
 
 #### Practical guidance
 
 If you want to use Gemini with this repository **without modifying the code**, use:
-- `gemini-*-flash` for `/chat/completions`-based pipelines only
+
+* `gemini-*-flash` for `/chat/completions`-based pipelines only
 
 If you select a Gemini **Pro** model with the current (unpatched) script, **the run may fail or produce invalid outputs**.
 
@@ -352,176 +366,6 @@ Therefore:
 * **MCQ logprob** currently assumes **JRC-compatible `/completions` logprobs support**
 
 If `target_model = "gemini-..."` and `do_mcq_logprob = true`, that pipeline may fail unless the `/completions` logprob path is extended for Gemini as well.
-
----
-
-## Metrics
-
-All paradigms produce a prediction $\hat y_i \in \mathcal{Y}$ for each example $i$, with gold label $y_i$.
-
-### Classification metrics
-
-* Accuracy
-* Macro-F1 (averages per-class F1 equally)
-* Macro-F1 (no direct): macro-F1 excluding `direct` (useful if `direct` is rare/absent)
-* Confusion matrix over the 4 labels
-* Per-class support and per-class F1
-
-### Hallucination rates (as in When2Call Appendix E.1, with extensions)
-
-Let $\mathrm{tools}_i$ be the set of available tools for example $i$, and let $\mathbf{1}[\cdot]$ be an indicator.
-
-#### Tool hallucination rate (ToolHall)
-
-```math
-\mathrm{ToolHall}=
-\frac{
-\sum_{i=1}^{N}
-\mathbf{1}\!\left[
-y_i=\texttt{cannot\_answer}
-\land
-|\mathrm{tools}_i|=0
-\land
-\hat{y}_i=\texttt{tool\_call}
-\right]
-}{
-\sum_{i=1}^{N}
-\mathbf{1}\!\left[
-y_i=\texttt{cannot\_answer}
-\land
-|\mathrm{tools}_i|=0
-\right]
-}.
-```
-
-* **numerator**: number of examples where:
-
-  * gold label is `cannot_answer`
-  * no tools are available (`len(tools_i) == 0`)
-  * predicted label is `tool_call`
-* **denominator**: number of examples where:
-
-  * gold label is `cannot_answer`
-  * no tools are available (`len(tools_i) == 0`)
-
-So, ToolHall is the fraction of no-tool `cannot_answer` cases that are incorrectly predicted as `tool_call`.
-
-Interpretation: probability of predicting a tool call when the gold label is `cannot_answer` and no tools are available.
-
-#### Answer hallucination rate (AnswerHall)
-
-$$
-\mathrm{AnswerHall}=
-\frac{
-\sum_{i=1}^{N}
-\mathbf{1}!\left[
-\hat y_i=\texttt{direct}
-\land
-y_i\ne\texttt{direct}
-\right]
-}{
-N
-}.
-$$
-
-
-
-Interpretation: rate of predicting `direct` when gold is not `direct`.
-
-This metric is an extension implemented in this evaluation suite and is **not** part of the original NVIDIA When2Call project scripts / reported metrics in the paper.
-
-#### Parameter hallucination rate (ParamHall)
-
-
-
-```math
-\mathrm{ParamHall}=
-\frac{
-\sum_{i=1}^{N}
-\mathbf{1}\!\left[
-y_i=\texttt{request\_for\_info}
-\land
-\hat{y}_i=\texttt{tool\_call}
-\right]
-}{
-\sum_{i=1}^{N}
-\mathbf{1}\!\left[
-y_i=\texttt{request\_for\_info}
-\right]
-}.
-```
-* **numerator**: number of examples where:
-
-  * gold label is `request_for_info`
-  * predicted label is `tool_call`
-* **denominator**: number of examples where:
-
-  * gold label is `request_for_info`
-
-So, ParamHall is the fraction of `request_for_info` cases in which the model calls a tool instead of asking for the missing required information.
-
-Interpretation: calling a tool instead of asking for missing required parameters.
-
-This metric is an extension implemented in this evaluation suite and is **not** part of the original NVIDIA When2Call project scripts / reported metrics in the paper.
-
----
-
-## Stability suite (optional but recommended)
-
-Because API-deployed LLMs are stochastic, the suite includes a stability module that runs each evaluation method $k$ times per example and quantifies reproducibility.
-
-Given predictions $(y_i^{(1)},\dots,y_i^{(k)})$, define:
-
-* modal label $\tilde y_i$,
-* modal multiplicity $m_i$.
-
-### Stability@k
-
-$$
-\mathrm{Stability@}k=\frac{1}{N}\sum_{i=1}^{N}\mathbf{1}[m_i=k].
-$$
-
-### MeanConsistency@k
-
-$$
-\mathrm{MeanConsistency@}k=\frac{1}{N}\sum_{i=1}^{N}\frac{m_i}{k}.
-$$
-
-### Stable & correct / stable but wrong / modal correctness
-
-$$
-\mathrm{StableCorrectRate}=\frac{1}{N}\sum_{i=1}^{N}\mathbf{1}[m_i=k \wedge \tilde y_i=y_i^{\text{gold}}],
-$$
-
-$$
-\mathrm{StableWrongRate}=\frac{1}{N}\sum_{i=1}^{N}\mathbf{1}[m_i=k \wedge \tilde y_i\neq y_i^{\text{gold}}],
-$$
-
-$$
-\mathrm{ModeCorrectRate}=\frac{1}{N}\sum_{i=1}^{N}\mathbf{1}[\tilde y_i=y_i^{\text{gold}}].
-$$
-
-### Entropy and flip rate
-
-Let $p_i(y)$ be the empirical distribution across runs.
-
-$$
-H_i=-\sum_{y\in\mathcal{Y}} p_i(y)\log_2 p_i(y),
-\qquad
-H_i^{\mathrm{norm}}=\frac{H_i}{\log_2|\mathcal{Y}|}.
-$$
-
-Flip rate:
-
-$$
-\mathrm{FlipRate}*i=\frac{1}{k-1}\sum*{r=2}^{k}\mathbf{1}[y_i^{(r)}\neq y_i^{(r-1)}].
-$$
-
-### Mean accuracy across runs
-
-$$
-\mathrm{MeanAccAcrossRuns}=\frac{1}{N}\sum_{i=1}^{N}\left(\frac{1}{k}\sum_{r=1}^{k}\mathbf{1}[y_i^{(r)}=y_i^{\text{gold}}]\right).
-$$
 
 ---
 
@@ -775,8 +619,8 @@ Per pipeline you will typically see:
 
 * `checkpoints/<exp_name>/*.jsonl` with per-UUID predictions
 * `checkpoints/<exp_name>/audit_fallbacks.jsonl` with structured fallback events
-* summary `metrics.json` including accuracy/F1/confusion matrix/hallucinations
-* stability checkpoints when enabled
+* summary `metrics.json` (classification + hallucination metrics; see [Metrics & Stability Guide](docs/metrics-and-stability.md))
+* stability checkpoints when enabled (if stability runs are configured)
 
 When MLflow is enabled, artifacts are also logged to the MLflow run.
 
@@ -790,12 +634,9 @@ This suite intentionally reproduces the core behavior setting from the NVIDIA Wh
 * MCQ logprob scoring recreates the **LM-Eval** multiple-choice likelihood approach using `/completions echo=True`.
 * The LLM-as-judge pipeline mirrors the “judge” approach used in the official scripts, but includes strict JSON parsing + repair retries + conservative fallback to ensure robustness in real API deployments.
 
-It also extends the original analysis with:
+It also extends the original analysis with additional evaluation outputs, reproducibility tooling (resume/checkpointing + fallback auditing), and optional repeated-run stability analyses.
 
-* macro-F1, confusion matrices, hallucination rates
-* stable resume/checkpointing and fallback auditing
-* stability metrics under repeated sampling
-* additional hallucination metrics (`AnswerHall`, `ParamHall`) beyond the original NVIDIA scripts/paper reporting
+See [Metrics & Stability Guide](docs/metrics-and-stability.md) for metric definitions and formulas.
 
 ---
 
@@ -803,3 +644,6 @@ It also extends the original analysis with:
 
 * “When2Call: When (not) to Call Tools” (arXiv:2504.18851)
 * Official repository and dataset: NVIDIA/When2Call
+
+
+
