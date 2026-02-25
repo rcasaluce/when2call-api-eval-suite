@@ -15,6 +15,13 @@ For operational details, auditability, and experiment tracking:
 
 ---
 
+> [!IMPORTANT]
+> **Current implementation scope (JRC-first):** this repository is built and tested primarily around the **GPT@JRC / JRC OpenAI-compatible API**.
+> It also includes **partial support** for other OpenAI-compatible providers (currently **Gemini chat-based paths**), but it is **not a generic drop-in framework for all OpenAI-compatible APIs**.
+> In particular, the **MCQ logprob pipeline** (`/completions` with echo + token logprobs) is currently **JRC-oriented / JRC-only** in this implementation.
+
+---
+
 ## What this code does
 
 The suite evaluates tool-use behavior across the four When2Call labels:
