@@ -1,0 +1,110 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+.eggs/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# =========================
+# Virtual environments
+# =========================
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Jupyter / notebooks
+# =========================
+.ipynb_checkpoints/
+
+
+# =========================
+# Test / coverage / tooling caches
+# =========================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.tox/
+.nox/
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Local secrets / config
+# =========================
+.env
+.env.*
+!.env.example
+
+# Keep the versioned template, ignore local runtime config
+config.toml
+!config.example.toml
+
+# Optional local overrides (if you use them)
+*.local.toml
+*.override.toml
+
+# =========================
+# Runtime outputs / artifacts
+# =========================
+# # Main evaluation outputs
+# workdir/
+# runs/
+
+# # If legacy code still writes here
+# artifacts_local/
+# checkpoints/
+
+# Logs / temp outputs
+logs/
+*.log
+tmp/
+temp/
+
+# =========================
+# MLflow
+# =========================
+# mlruns/
+# mlartifacts/
+# mlflow.db
+# *.sqlite
+# *.sqlite3
+
+# =========================
+# Data files (optional)
+# =========================
+# Uncomment if you DO NOT want to version local datasets/clones
+# When2Call/
+# data/
+# *.jsonl
+
+# =========================
+# Misc
+# =========================
+.cache/

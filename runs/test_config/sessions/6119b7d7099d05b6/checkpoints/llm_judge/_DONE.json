@@ -1,0 +1,8 @@
+{
+  "exp_name": "llm_judge",
+  "done_at": "2026-02-22T14:11:02+00:00",
+  "session_fingerprint": "6119b7d7099d05b6",
+  "accuracy": 0.3333333333333333,
+  "macro_f1": 0.125,
+  "n_total": 15
+}

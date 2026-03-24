@@ -1,0 +1,62 @@
+[
+  {
+    "uuid": "d605702e-2b1f-44e0-a17f-68e8f9b9d103",
+    "raw_text": "Could you please provide the **releaseId** of the release you’d like to delete?"
+  },
+  {
+    "uuid": "7b093b32-89d8-4018-b165-31fdeb7a7874",
+    "raw_text": ""
+  },
+  {
+    "uuid": "a95e60f5-87e6-4ae2-983d-f3e9972c1eca",
+    "raw_text": "{\"name\": \"start_oncall\", \"arguments\": {\"question\": \"Can I create a workspace named 'DevelopmentEnv' based on the 'feature-branch'?\", \"oncall_type\": \"swift\"}}"
+  },
+  {
+    "uuid": "a99abcf7-7078-4b88-bf5f-5d08f3ff021a",
+    "raw_text": "{\n  \"name\": \"Hotels_2_SearchHouse\",\n  \"arguments\": {\n    \"where_to\": \"Los Angeles, CA\",\n    \"has_laundry_service\": \"dontcare\",\n    \"number_of_adults\": 0,\n    \"rating\": 0.0\n  }\n}"
+  },
+  {
+    "uuid": "e368b7b9-a8e3-42ea-9af0-6203c6202d30",
+    "raw_text": "Sure! I can look up cultural events in Los Angeles for 4 March 2023, but I need to know which kind of events you’re interested in.  \n\n- **Music** (concerts, festivals, etc.)  \n- **Theater** (plays, performances, etc.)  \n\nWould you like to see one of these categories, or both?  \n\n(And yes—March 2023 is still March 2023! 😊)"
+  },
+  {
+    "uuid": "1c633f90-68aa-48f6-85e7-64775893689b",
+    "raw_text": ""
+  },
+  {
+    "uuid": "6580a699-4972-4a7f-8e82-b1f3051f7567",
+    "raw_text": "{\n  \"name\": \"Hotels_4_SearchHotel\",\n  \"arguments\": {\n    \"location\": \"New York, NY\",\n    \"star_rating\": \"3\"\n  }\n}"
+  },
+  {
+    "uuid": "d640a3b1-c175-4774-980d-40f3b8713575",
+    "raw_text": "{\"name\": \"Events_3_FindEvents\", \"arguments\": {\"event_type\": \"Music\", \"city\": \"Los Angeles, CA\", \"date\": \"2023-10-01\"}}"
+  },
+  {
+    "uuid": "84f04ce6-d75a-4a06-b483-37b06ddb7062",
+    "raw_text": "Sure! I can look up attractions for you. Could you let me know:\n\n1. **Where you’d like to go** (city, state, or country).  \n2. If you have any preferences, such as:\n   * Free entry or not  \n   * Type of attraction (museum, park, historical site, etc.)  \n   * Whether it should be kid‑friendly  \n\nJust give me those details and I’ll find the best options for you."
+  },
+  {
+    "uuid": "938b6fc5-78a5-4dd0-97cb-2af905ddedc8",
+    "raw_text": "{\n  \"name\": \"Movies_3_FindMovies\",\n  \"arguments\": {\n    \"directed_by\": \"Quentin Tarantino\",\n    \"genre\": \"Offbeat\",\n    \"cast\": \"dontcare\"\n  }\n}"
+  },
+  {
+    "uuid": "ef2a0b4b-521f-4431-a35a-5bf125ed4161",
+    "raw_text": "Sure! To look up available cars I’ll need the end date of your rental period. Could you let me know when you plan to return the car?"
+  },
+  {
+    "uuid": "e42088d8-3890-46e5-9f6b-829592bc5ef6",
+    "raw_text": "I’m not able to pull real‑time weather information, but I can give you a general overview of what Nairobi’s climate is like and suggest where you can find up‑to‑date conditions.\n\n**Typical climate in Nairobi (near the equator, high altitude)**  \n- **Average temperature:** 15 °C – 26 °C (59 °F – 79 °F) year‑round.  \n- **Rainy seasons:**  \n  * **Long rains:** March – May (peak in April).  \n  * **Short rains:** October – December (peak in November).  \n- **Dry seasons:** January – February and June – September.  \n- **Humidity:** Usually moderate, higher during the rainy periods.  \n- **Sunshine:** About 7–8 hours per day on average.\n\n**How to get the current weather for Nairobi right now**\n\n| Service | How to use |\n|---------|------------|\n| **Weather.com** | Search “Nairobi, Kenya” on the site or use the mobile app. |\n| **AccuWeather** | Enter “Nairobi” in the search bar for a detailed forecast. |\n| **Google** | Type “Nairobi weather” into the search box; a widget shows temperature, precipitation chance, wind, etc. |\n| **OpenWeather API** (for developers) | Call `https://api.openweathermap.org/data/2.5/weather?q=Nairobi&appid=YOUR_KEY`. |\n| **Local meteorological agency** | Kenya Meteorological Department (KMD) provides official updates at https://www.meteo.go.ke. |\n\nIf you need a forecast for a specific future date (e.g., planning a trip), let me know the dates and I can give you typical seasonal expectations or help you look up a 7‑day forecast from one of the services above."
+  },
+  {
+    "uuid": "87f65a70-ea70-4e7f-b363-6d24b6342539",
+    "raw_text": "{\n  \"name\": \"Movies_3_FindMovies\",\n  \"arguments\": {\n    \"directed_by\": \"dontcare\",\n    \"genre\": \"dontcare\",\n    \"cast\": \"Kathy Griffin\"\n  }\n}"
+  },
+  {
+    "uuid": "545a3b0a-0d93-4095-a08a-247d0c09d281",
+    "raw_text": "{\n  \"name\": \"RentalCars_3_ReserveCar\",\n  \"arguments\": {\n    \"pickup_location\": \"Los Angeles, CA\",\n    \"start_date\": \"2023-04-24\",\n    \"pickup_time\": \"10:00\",\n    \"end_date\": \"2023-04-28\",\n    \"car_type\": \"dontcare\",\n    \"add_insurance\": false\n  }\n}"
+  },
+  {
+    "uuid": "233a2d44-119b-470e-afba-4430973d219f",
+    "raw_text": ""
+  }
+]

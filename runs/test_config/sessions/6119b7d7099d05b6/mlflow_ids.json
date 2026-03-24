@@ -1,0 +1,9 @@
+{
+  "parent_run_id": "eeac74ea91ca41d9b5f624c58b1985df",
+  "child_run_ids": {
+    "llm_judge": "a064c4508235469da6bb318a1dceef08",
+    "mcq": "1fedf790c7ba40648a0c3ca14ee8f9a4",
+    "mcq_logprob": "07fadc86314b4645adec1d458297757c"
+  },
+  "parent_initialized": true
+}

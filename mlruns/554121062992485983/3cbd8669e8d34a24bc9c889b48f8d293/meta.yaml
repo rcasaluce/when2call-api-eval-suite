@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/roberto/Documents/jrc/script_esperimenti_when2call_2026/code_divided_github/mlruns/554121062992485983/3cbd8669e8d34a24bc9c889b48f8d293/artifacts
+end_time: 1771781183015
+entry_point_name: ''
+experiment_id: '554121062992485983'
+lifecycle_stage: active
+run_id: 3cbd8669e8d34a24bc9c889b48f8d293
+run_name: mcq
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1771781149676
+status: 4
+tags: []
+user_id: roberto

@@ -1,0 +1,134 @@
+# =============================================================================
+# When2Call evaluation config (example)
+# Copy this file to: config.toml
+# =============================================================================
+
+[run]
+# Base folder where runs/<RUN_KEY>/... will be created
+workdir_base = "./workdir"
+
+# Optional fixed run key. Leave empty to be prompted / auto-generated (depending on your flow).
+run_key = ""
+
+# API seed used in chat/completions + /completions scoring calls
+api_seed = 42
+
+
+[providers.jrc]
+# JRC OpenAI-compatible endpoint (no trailing slash preferred, but code strips it anyway)
+base_url = "https://your-jrc-openai-compatible-endpoint.example.com/v1"
+
+# Token for JRC provider.
+# If your w2c_config loader injects from .env, you can leave this empty and set TOKEN_JRC in .env
+token = ""
+
+
+[providers.gemini]
+# Gemini OpenAI-compatible endpoint (Google Generative Language OpenAI compatibility)
+base_url = "https://generativelanguage.googleapis.com/v1beta/openai"
+
+# Token for Gemini provider.
+# If your w2c_config loader injects from .env, you can leave this empty and set TOKEN_GEMINI in .env
+token = ""
+
+# Model prefixes used to route requests to Gemini provider automatically
+model_prefixes = ["gemini-"]
+
+
+[http]
+# Retry policy for POST calls
+max_retries = 5
+retry_sleep_seconds = 3.0
+base_delay_seconds = 0.0
+
+# Per-request timeout (seconds)
+timeout_seconds = 60
+
+
+[models]
+# Target model under test
+target_model = "gpt-4o"
+
+# Judge model for LLM-as-judge pipeline
+judge_model = "gpt-4o"
+
+# Optional delimiter override for MCQ logprob scoring.
+# Leave empty to auto-resolve from templates/model.
+force_target_delimiter = ""
+
+# Models for which reasoning payload may be sent (JRC path only)
+reasoning_models = [
+  "gpt-oss-120b",
+  "gpt-oss-20b"
+]
+
+# Reasoning effort for supported models (set "" to disable)
+reasoning_effort = "low"
+
+
+[data]
+# Path to the evaluation dataset JSONL
+eval_data_path = "./data/when2call_eval.jsonl"
+
+# If true, use all examples in the dataset
+# If false, use a stratified subsample with n_per_label per class
+use_full_dataset = false
+
+# Used only when use_full_dataset = false
+n_per_label = 50
+subsample_seed = 42
+
+
+[pipelines]
+# Enable / disable main evaluation pipelines
+do_llm_judge = true
+do_mcq = true
+do_mcq_logprob = true
+
+# Temperatures
+target_temperature = 0.0
+judge_temperature = 0.0
+mcq_temperature = 0.0
+
+
+[stability]
+# Enable / disable stability sweeps
+do_mcq_stability = false
+do_llm_judge_stability = false
+do_mcq_lp_stability = false
+
+# MCQ stability settings
+mcq_stability_n_runs = 5
+mcq_stability_temperatures = [0.0, 0.2, 0.5]
+
+# LLM-as-judge stability settings (target varies, judge stays at 0 in code)
+llm_judge_stability_n_runs = 5
+target_stability_temperatures = [0.0, 0.2, 0.5]
+
+# MCQ logprob stability settings
+mcq_lp_stability_n_runs = 5
+mcq_lp_stability_temperature = 0.0
+
+
+[debug]
+# Token boundary drift diagnostics for MCQ logprob scoring
+debug_mcq_token_mismatch = false
+debug_mcq_token_mismatch_max = 1000000000
+
+# Print template family once (useful for prompt-family debugging)
+print_template_family_once = true
+
+
+[available_models]
+# Optional list shown/used by your notebook runner (fallback defaults exist in code)
+items = [
+  "qwen3-32b",
+  "minimax-m2",
+  "gpt-oss-120b",
+  "react-agent-mistral-3.2",
+  "qwen3-coder-30b-a3b-instruct",
+  "gpt-4o",
+  "qwen-coder-2.5-base",
+  "llama-3.3-70b-instruct",
+  "mistral-small-3.2-24b"
+]

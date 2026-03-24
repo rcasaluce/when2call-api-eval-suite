@@ -1,0 +1,83 @@
+{
+  "header": {
+    "method": "mcq"
+  },
+  "metrics": {
+    "accuracy": 0.6666666666666666,
+    "macro_f1": 0.5472222222222223,
+    "macro_f1_no_direct": 0.7296296296296297,
+    "per_class_f1": {
+      "direct": 0.0,
+      "tool_call": 0.8000000000000002,
+      "request_for_info": 0.888888888888889,
+      "cannot_answer": 0.5
+    },
+    "per_class_support": {
+      "direct": 0,
+      "tool_call": 5,
+      "request_for_info": 5,
+      "cannot_answer": 5
+    },
+    "confusion_matrix": {
+      "direct": {
+        "direct": 0,
+        "tool_call": 0,
+        "request_for_info": 0,
+        "cannot_answer": 0
+      },
+      "tool_call": {
+        "direct": 0,
+        "tool_call": 4,
+        "request_for_info": 0,
+        "cannot_answer": 1
+      },
+      "request_for_info": {
+        "direct": 1,
+        "tool_call": 0,
+        "request_for_info": 4,
+        "cannot_answer": 0
+      },
+      "cannot_answer": {
+        "direct": 2,
+        "tool_call": 1,
+        "request_for_info": 0,
+        "cannot_answer": 2
+      }
+    },
+    "tool_hallucination_rate": 1.0,
+    "answer_hallucination_rate": 0.2,
+    "parameter_hallucination_rate": 0.0,
+    "n_total": 15,
+    "n_missing_uuid": 0,
+    "n_invalid_label": 2,
+    "n_converted_to_cannot_answer": 2,
+    "n_mcq_predicted_index_minus1": 2,
+    "n_mcq_predicted_label_invalid_raw": 2,
+    "mcq_predicted_index_minus1_rate": 0.13333333333333333,
+    "audit_fallbacks_summary": {
+      "audit_path": "/Users/roberto/Documents/jrc/script_esperimenti_when2call_2026/code_divided/runs/test_config/sessions/6119b7d7099d05b6/checkpoints/mcq/audit_fallbacks.jsonl",
+      "n_events_total": 2,
+      "n_uuids_with_any_event": 2,
+      "events_by_fallback_type": {
+        "invalid_label_coercion_to_cannot_answer": 2
+      },
+      "events_by_stage": {
+        "metrics": 2
+      },
+      "events_by_severity": {
+        "warning": 2
+      },
+      "uuids_by_fallback_type": {
+        "invalid_label_coercion_to_cannot_answer": 2
+      },
+      "n_forced_fallback_events": 2,
+      "n_forced_fallback_uuids": 2,
+      "forced_fallback_types": [
+        "all_logprobs_-inf_string_fallback",
+        "invalid_label_coercion_to_cannot_answer",
+        "judge_json_parse_failed_second_fallback_to_cannot_answer",
+        "missing_prediction_uuid"
+      ]
+    }
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "header": {
+    "method": "mcq_logprob"
+  },
+  "metrics": {
+    "norm_bytes": {
+      "accuracy": 0.5333333333333333,
+      "macro_f1": 0.38095238095238093,
+      "macro_f1_no_direct": 0.5079365079365079,
+      "per_class_f1": {
+        "direct": 0.0,
+        "tool_call": 0.5714285714285714,
+        "request_for_info": 0.6666666666666665,
+        "cannot_answer": 0.28571428571428575
+      },
+      "per_class_support": {
+        "direct": 0,
+        "tool_call": 5,
+        "request_for_info": 5,
+        "cannot_answer": 5
+      },
+      "confusion_matrix": {
+        "direct": {
+          "direct": 0,
+          "tool_call": 0,
+          "request_for_info": 0,
+          "cannot_answer": 0
+        },
+        "tool_call": {
+          "direct": 0,
+          "tool_call": 4,
+          "request_for_info": 0,
+          "cannot_answer": 1
+        },
+        "request_for_info": {
+          "direct": 0,
+          "tool_call": 2,
+          "request_for_info": 3,
+          "cannot_answer": 0
+        },
+        "cannot_answer": {
+          "direct": 0,
+          "tool_call": 3,
+          "request_for_info": 1,
+          "cannot_answer": 1
+        }
+      },
+      "tool_hallucination_rate": 1.0,
+      "answer_hallucination_rate": 0.0,
+      "parameter_hallucination_rate": 0.4,
+      "n_total": 15,
+      "n_missing_uuid": 0,
+      "n_invalid_label": 0,
+      "n_converted_to_cannot_answer": 0
+    },
+    "raw": {
+      "accuracy": 0.5333333333333333,
+      "macro_f1": 0.38095238095238093,
+      "macro_f1_no_direct": 0.5079365079365079,
+      "per_class_f1": {
+        "direct": 0.0,
+        "tool_call": 0.5714285714285714,
+        "request_for_info": 0.6666666666666665,
+        "cannot_answer": 0.28571428571428575
+      },
+      "per_class_support": {
+        "direct": 0,
+        "tool_call": 5,
+        "request_for_info": 5,
+        "cannot_answer": 5
+      },
+      "confusion_matrix": {
+        "direct": {
+          "direct": 0,
+          "tool_call": 0,
+          "request_for_info": 0,
+          "cannot_answer": 0
+        },
+        "tool_call": {
+          "direct": 0,
+          "tool_call": 4,
+          "request_for_info": 0,
+          "cannot_answer": 1
+        },
+        "request_for_info": {
+          "direct": 0,
+          "tool_call": 2,
+          "request_for_info": 3,
+          "cannot_answer": 0
+        },
+        "cannot_answer": {
+          "direct": 0,
+          "tool_call": 3,
+          "request_for_info": 1,
+          "cannot_answer": 1
+        }
+      },
+      "tool_hallucination_rate": 1.0,
+      "answer_hallucination_rate": 0.0,
+      "parameter_hallucination_rate": 0.4,
+      "n_total": 15,
+      "n_missing_uuid": 0,
+      "n_invalid_label": 0,
+      "n_converted_to_cannot_answer": 0
+    },
+    "norm_tokens": {
+      "accuracy": 0.5333333333333333,
+      "macro_f1": 0.38095238095238093,
+      "macro_f1_no_direct": 0.5079365079365079,
+      "per_class_f1": {
+        "direct": 0.0,
+        "tool_call": 0.5714285714285714,
+        "request_for_info": 0.6666666666666665,
+        "cannot_answer": 0.28571428571428575
+      },
+      "per_class_support": {
+        "direct": 0,
+        "tool_call": 5,
+        "request_for_info": 5,
+        "cannot_answer": 5
+      },
+      "confusion_matrix": {
+        "direct": {
+          "direct": 0,
+          "tool_call": 0,
+          "request_for_info": 0,
+          "cannot_answer": 0
+        },
+        "tool_call": {
+          "direct": 0,
+          "tool_call": 4,
+          "request_for_info": 0,
+          "cannot_answer": 1
+        },
+        "request_for_info": {
+          "direct": 0,
+          "tool_call": 2,
+          "request_for_info": 3,
+          "cannot_answer": 0
+        },
+        "cannot_answer": {
+          "direct": 0,
+          "tool_call": 3,
+          "request_for_info": 1,
+          "cannot_answer": 1
+        }
+      },
+      "tool_hallucination_rate": 1.0,
+      "answer_hallucination_rate": 0.0,
+      "parameter_hallucination_rate": 0.4,
+      "n_total": 15,
+      "n_missing_uuid": 0,
+      "n_invalid_label": 0,
+      "n_converted_to_cannot_answer": 0
+    },
+    "norm_chars": {
+      "accuracy": 0.5333333333333333,
+      "macro_f1": 0.38095238095238093,
+      "macro_f1_no_direct": 0.5079365079365079,
+      "per_class_f1": {
+        "direct": 0.0,
+        "tool_call": 0.5714285714285714,
+        "request_for_info": 0.6666666666666665,
+        "cannot_answer": 0.28571428571428575
+      },
+      "per_class_support": {
+        "direct": 0,
+        "tool_call": 5,
+        "request_for_info": 5,
+        "cannot_answer": 5
+      },
+      "confusion_matrix": {
+        "direct": {
+          "direct": 0,
+          "tool_call": 0,
+          "request_for_info": 0,
+          "cannot_answer": 0
+        },
+        "tool_call": {
+          "direct": 0,
+          "tool_call": 4,
+          "request_for_info": 0,
+          "cannot_answer": 1
+        },
+        "request_for_info": {
+          "direct": 0,
+          "tool_call": 2,
+          "request_for_info": 3,
+          "cannot_answer": 0
+        },
+        "cannot_answer": {
+          "direct": 0,
+          "tool_call": 3,
+          "request_for_info": 1,
+          "cannot_answer": 1
+        }
+      },
+      "tool_hallucination_rate": 1.0,
+      "answer_hallucination_rate": 0.0,
+      "parameter_hallucination_rate": 0.4,
+      "n_total": 15,
+      "n_missing_uuid": 0,
+      "n_invalid_label": 0,
+      "n_converted_to_cannot_answer": 0
+    }
+  },
+  "mode_counts": {
+    "llama_scoring": 15,
+    "string_fallback": 0,
+    "UNKNOWN": 0
+  },
+  "fallbacks": {
+    "n_string_fallback": 0,
+    "n_string_fallback_pred_idx_minus1": 0,
+    "audit_fallbacks_summary": {
+      "audit_path": "/Users/roberto/Documents/jrc/script_esperimenti_when2call_2026/code_divided/runs/test_config/sessions/6119b7d7099d05b6/checkpoints/mcq_logprob/audit_fallbacks.jsonl",
+      "n_events_total": 60,
+      "n_uuids_with_any_event": 15,
+      "events_by_fallback_type": {
+        "token_prefix_mismatch_lcp_split": 60
+      },
+      "events_by_stage": {
+        "scoring": 60
+      },
+      "events_by_severity": {
+        "info": 60
+      },
+      "uuids_by_fallback_type": {
+        "token_prefix_mismatch_lcp_split": 15
+      },
+      "n_forced_fallback_events": 0,
+      "n_forced_fallback_uuids": 0,
+      "forced_fallback_types": [
+        "all_logprobs_-inf_string_fallback",
+        "invalid_label_coercion_to_cannot_answer",
+        "judge_json_parse_failed_second_fallback_to_cannot_answer",
+        "missing_prediction_uuid"
+      ]
+    }
+  }
+}

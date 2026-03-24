@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "fingerprint": "6119b7d7099d05b6",
+  "created_at": "2026-02-22T14:09:27+00:00",
+  "updated_at": "2026-02-22T14:09:27+00:00",
+  "config": {
+    "eval_data_path": "When2Call/data/test/when2call_test_mcq.jsonl",
+    "use_full_dataset": false,
+    "n_per_label": 5,
+    "subsample_seed": 11,
+    "target_model": "gpt-oss-120b",
+    "judge_model": "gpt-oss-120b",
+    "do_llm_judge": true,
+    "do_mcq": true,
+    "do_mcq_logprob": true,
+    "do_mcq_stability": false,
+    "mcq_stability_n_runs": 10,
+    "mcq_stability_temperatures": [
+      0.0,
+      0.3,
+      0.7
+    ],
+    "do_llm_judge_stability": false,
+    "llm_judge_stability_n_runs": 10,
+    "target_stability_temperatures": [
+      0.0,
+      0.3,
+      0.7
+    ],
+    "judge_stability_temperature": 0.0,
+    "do_mcq_lp_stability": false,
+    "mcq_lp_stability_n_runs": 5,
+    "mcq_lp_stability_temperature": 0.0,
+    "base_url": "https://api-gpt.jrc.ec.europa.eu/v1",
+    "when2call_template_family": "harmony_gpt_oss",
+    "forced_target_delimiter": "''",
+    "effective_target_delimiter": "''",
+    "max_retries": 3,
+    "retry_sleep_seconds": 10.0,
+    "base_delay_seconds": 1.0,
+    "reasoning_effort": "low",
+    "reasoning_models": "gpt-oss-120b",
+    "api_seed": 25
+  }
+}

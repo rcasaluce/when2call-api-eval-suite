@@ -1,0 +1,8 @@
+{
+  "exp_name": "mcq",
+  "done_at": "2026-02-22T14:11:59+00:00",
+  "session_fingerprint": "6119b7d7099d05b6",
+  "accuracy": 0.6666666666666666,
+  "macro_f1": 0.5472222222222223,
+  "n_total": 15
+}
